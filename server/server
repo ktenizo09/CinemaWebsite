@@ -26,7 +26,7 @@ app.get("/movies/:movieId", async (req, res)=>{
     try{
         let resp = await axios.get(`${baseUrl}/movie/${req.params.movieId}?api_key=${apiKey}`);
         console.log(21, resp.data);
-        return res.json(resp.data);
+        res.json(resp.data);
     }
     catch(error){
         console.log("Error fetching movie data: ", error);
