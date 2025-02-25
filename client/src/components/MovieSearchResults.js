@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 
 const MovieList = () => {
     const [movies, setMovies] = useState([]);
@@ -7,6 +7,7 @@ const MovieList = () => {
     const query = searchParams.get('query');
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const navigate = useNavigate();
 
     const fetchMovies = async (page = 1) => {
         try {
@@ -30,7 +31,7 @@ const MovieList = () => {
             fetchMovies(currentPage);
         }
     }, [query, currentPage]);
-    
+
     useEffect(() => {
         setCurrentPage(1);
     }, [query]);
@@ -38,13 +39,19 @@ const MovieList = () => {
     return (
         <>
             <div>
+
                 {(typeof movies === 'undefined' || movies === null) ? (
                     <p>Loading...</p>
                 ) : (
                     <div className="background_container">
-                        <h2>Search Query: <b>{query}</b></h2>
+                         <div className="header">
+                            <h2>Search Query: <b>{query}</b></h2>
+                            <button onClick={() => navigate('/movies')} className="btn btn-primary">
+                                Back to Home
+                            </button>
+                        </div>
                         <div className="flex-container">
-                            {movies.map((movie) => (
+                            {movies.filter(movie => movie.poster_path).map((movie) => (
                                 <div key={movie.id} className="movie_item">
                                     <img
                                         src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}

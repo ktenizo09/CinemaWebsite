@@ -59,15 +59,16 @@
   .flex-container {
     gap: 10px;
   }
+
   .movie_item {
     width: 150px;
   }
 }
 
 
-  #searchBar {
-    width: 25rem;
-  }
+#searchBar {
+  width: 25rem;
+}
 
 /* Movie Section */
 .movie-section {
@@ -185,6 +186,15 @@
 .btn:hover {
   background-color: #0056b3;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+
 
 .movies-container {
   display: grid;
