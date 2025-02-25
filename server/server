@@ -36,9 +36,9 @@ app.get("/movies", async (req, res) => {
 // GET API Endpoint for retrieving selected movie 
 app.get("/movies/:movieId", async (req, res) => {
     try {
-        const query = req.query.query;
+        const movieId = req.params.movieId;
         
-        const resp = await axios.get(`${baseUrl}/movie/${query}?api_key=${apiKey}`);
+        const resp = await axios.get(`${baseUrl}/movie/${movieId}?api_key=${apiKey}`);
         console.log(21, resp.data);
         res.json(resp.data);
     }
