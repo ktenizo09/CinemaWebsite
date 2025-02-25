@@ -1,37 +1,51 @@
 const express = require('express');
 const axios = require('axios');
 const app = express();
-const apiKey ='2ca07079918fc4cc9398ada6f5671ac6';
+const apiKey = '2ca07079918fc4cc9398ada6f5671ac6';
 const baseUrl = "https://api.themoviedb.org/3"
 
 // app.use(cors()); // Allows CORS for frontend requests
 // const cors = require(cors)
 
 // GET API Endpoint for retrieving trending movies
-app.get("/movies", async (req, res)=>{
-    try{
+app.get("/movies", async (req, res) => {
+    try {
         let resp = await axios.get(`${baseUrl}/trending/movie/week?api_key=${apiKey}&media_type=movie`);
         console.log(21, resp.data.results);
         res.json(resp.data.results || []);
     }
-    catch(error){
-        console.log("Error fetching movies: ",error);
-        returnres.status(500).json({ error: 'Failed to fetch movies' });
+    catch (error) {
+        console.log("Error fetching movies: ", error);
+        res.status(500).json({ error: 'Failed to fetch movies' });
 
     }
 })
 
-// GET API Endpoint for retrieving specific movie 
-app.get("/movies/:movieId", async (req, res)=>{
-    try{
+// GET API Endpoint for retrieving selected movie 
+app.get("/movies/:movieId", async (req, res) => {
+    try {
         let resp = await axios.get(`${baseUrl}/movie/${req.params.movieId}?api_key=${apiKey}`);
         console.log(21, resp.data);
         res.json(resp.data);
     }
-    catch(error){
+    catch (error) {
         console.log("Error fetching movie data: ", error);
         res.status(500).json({ error: 'Failed to fetch movie data' });
     }
 })
 
-app.listen(5000, ()=> {console.log("Server started on port 5000")})
+// GET API Endpoint for retrieving searched movie
+app.get("/search", async (req, res) => {
+    try {
+        let resp = await axios.get(`${baseUrl}/search/movie?api_key=${apiKey}&query=${req.query.query}`);
+        console.log(21, resp.data.title);
+        res.json(resp.data.results || []);
+    }
+    catch (error) {
+        console.log("Error fetching movies: ", error);
+        res.status(500).json({ error: 'Failed to fetch movies' });
+
+    }
+})
+
+app.listen(5000, () => { console.log("Server started on port 5000") })
