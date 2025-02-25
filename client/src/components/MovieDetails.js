@@ -39,20 +39,32 @@ const MovieDetailsPage = () => {
                 (<p>Loading...</p>) :
                 (<section className="movie-section">
                     <div className="movie-card">
-                        <figure>
-                            <img src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`} alt="movie poster" />
-                        </figure>
-                        <div className="card-content">
-                            <p className="title">{movie.title}</p>
-                            <p className="tagline">{movie.tagline}</p>
-                            <p className="overview">{movie.overview}</p>
-                            <p className="card-text">{movie.release_date}</p>
-                            <p className="card-text">{movie.genre}</p>
-                            <p className="card-text">{movie.vote_average} / 10</p>
-                            <button onClick={handleGoBack} className="btn btn-primary" >Back to Movies</button>
+                      <figure className="movie-image">
+                        <img
+                          src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
+                          alt={`${movie.title} Poster`}
+                        />
+                        <figcaption className="movie-figcaption">{movie.title}</figcaption>
+                      </figure>
+                      <div className="card-content">
+                        <header className="movie-header">
+                          <h2 className="movie-title">{movie.title}</h2>
+                          {movie.tagline && <p className="movie-tagline">{movie.tagline}</p>}
+                        </header>
+                        <p className="movie-overview">{movie.overview}</p>
+                        <div className="movie-details">
+                          <span className="detail release-date">Release: {movie.release_date}</span>
+                          <span className="detail genre">Genre: {movie.genre}</span>
+                          <span className="detail rating">Rating: {movie.vote_average} / 10</span>
                         </div>
+                        <div className="movie-actions">
+                          <button onClick={handleGoBack} className="btn btn-primary">
+                            Back to Movies
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                </section>)
+                  </section>)
             }
         </div>
     );

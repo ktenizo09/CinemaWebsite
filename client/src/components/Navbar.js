@@ -13,9 +13,10 @@ function NavBar() {
           <Form className="d-flex">
             <Form.Control
               type="search"
-              placeholder="Search"
+              placeholder="Search for a movie"
               className="me-2"
               aria-label="Search"
+              id="searchBar"
             />
             <Button variant="outline-success">Search</Button>
           </Form>
