@@ -32,7 +32,8 @@ const MovieDetailsPage = () => {
         <div>
             {(typeof movie === 'undefined' || movie === null) ?
                 (<p>Loading...</p>) :
-                (<section className="movie-section">
+                (
+                <section className="movie-section">
                     <div className="movie-card">
                         <figure className="movie-image">
                             <img

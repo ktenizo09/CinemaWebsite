@@ -27,20 +27,23 @@ const MovieList = () => {
                     (<p>Loading...</p>) :
                     (
                         <div className="background_container">
+                            <h2>Trending</h2>
                             <div className="flex-container">
                                 {movies.map((movie) => (
                                     <div key={movie.id} className="movie_item">
-                                        <img
-                                            src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
-                                            alt="movie poster"
-                                            className="movie-poster"
-                                        />
+                                        <Link to={`/movies/${movie.id}`} className="movie-link">
+                                            <img
+                                                src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
+                                                alt="movie poster"
+                                                className="movie-poster"
+                                            />
 
-                                        <div className="movie_name">
-                                            <Link to={`/movies/${movie.id}`} className="movie-link">
+                                            <div className="movie_name">
+
                                                 {movie.original_title ? movie.original_title : movie.name}
-                                            </Link>
-                                        </div>
+                                            </div>
+                                        </Link>
+
                                     </div>
                                 ))}
                             </div>

@@ -20,7 +20,7 @@ const NavBar = () => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
-        <Navbar.Brand href="#">Movie House</Navbar.Brand>
+        <Navbar.Brand href="/movies">Movie House</Navbar.Brand>
 
         <Form className="d-flex" onSubmit={handleSubmit}>
           <Form.Control
