@@ -13,16 +13,16 @@ const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // Limit each IP to 100 requests per `windowMs` (15 minutes)
     message: "Too many requests from this IP, please try again later."
-  });
+});
 
-  app.use(limiter); // Apply rate limiting to all requests
+app.use(limiter); // Apply rate limiting to all requests
 
 // GET API Endpoint for retrieving trending movies
 app.get("/movies", async (req, res) => {
     try {
         const resp = await axios.get(`${baseUrl}/trending/movie/week?api_key=${apiKey}&media_type=movie`);
         const results = resp.data.results || [];
-        
+
         console.log(21, results);
         res.json(results);
     }
@@ -37,7 +37,7 @@ app.get("/movies", async (req, res) => {
 app.get("/movies/:movieId", async (req, res) => {
     try {
         const movieId = req.params.movieId;
-        
+
         const resp = await axios.get(`${baseUrl}/movie/${movieId}?api_key=${apiKey}`);
         console.log(21, resp.data);
         res.json(resp.data);
@@ -50,9 +50,8 @@ app.get("/movies/:movieId", async (req, res) => {
 
 // GET API Endpoint for retrieving searched movie
 app.get("/search", async (req, res) => {
-    const query = req.query.query;
+    const { query, page = 1 } = req.query;
     const cacheKey = `search:${query}`; // Cache key for search query
-
 
     // Check if the data is already cached
     const cachedResult = cache.get(cacheKey);
@@ -62,17 +61,26 @@ app.get("/search", async (req, res) => {
     }
 
     try {
-        const resp = await axios.get(`${baseUrl}/search/movie?api_key=${apiKey}&query=${query}`);
-        const results = resp.data.results || [];
+        const resp = await axios.get(`${baseUrl}/search/movie`, {
+            params: {
+                api_key: apiKey,
+                query,
+                page,
+            },
+        });
+        const results = {
+            results: resp.data.results,
+            total_pages: resp.data.total_pages, // Use total_pages to match client code
+            page: parseInt(page), // Use page to match client code
+        };
 
         console.log(21, results);
-        cache.set(cacheKey, results); // Store results in cache
+        cache.set(cacheKey); // Store results in cache
         res.json(results);
     }
     catch (error) {
         console.log("Error fetching movies: ", error);
         res.status(500).json({ error: 'Failed to fetch movies' });
-
     }
 })
 
