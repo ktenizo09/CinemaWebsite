@@ -30,8 +30,8 @@ const MovieList = () => {
                             <h2>Trending</h2>
                             <div className="flex-container">
                                 {movies.map((movie) => (
-                                    <div key={movie.id} className="movie_item">
-                                        <Link to={`/movies/${movie.id}`} className="movie-link">
+                                    <div  className="movie_item">
+                                        <Link to={`/movies/${movie.id}`} className="movie-link" key={movie.id}>
                                             <img
                                                 src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
                                                 alt="movie poster"
