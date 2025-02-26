@@ -2,11 +2,15 @@ const express = require('express');
 const axios = require('axios');
 const NodeCache = require('node-cache'); // Importing NodeCache
 const rateLimit = require('express-rate-limit'); // Importing express-rate-limit
+const path = require('path'); // Importing path module
 
 const app = express(); // Create an express app
 const apiKey = '2ca07079918fc4cc9398ada6f5671ac6'; // API Key for TMDB website 
 const baseUrl = "https://api.themoviedb.org/3" // Base URL for TMDB API
 const cache = new NodeCache({ stdTTL: 600 }); // Cache for 10 minutes
+
+// Trust proxy headers
+app.set('trust proxy', 1);
 
 // Apply rate limiting to all requests
 const limiter = rateLimit({
@@ -16,6 +20,9 @@ const limiter = rateLimit({
 });
 
 app.use(limiter); // Apply rate limiting to all requests
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 // GET API Endpoint for retrieving trending movies
 app.get("/movies", async (req, res) => {
